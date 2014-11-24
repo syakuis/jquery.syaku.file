@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta content="SWFUpload + CKEditor4 or SmartEditor Powered by Seok Kyun. Choi. 최석균" name="Generator" />
+<meta content="Seok Kyun. Choi. (http://syaku.tistory.com)" name="Programmed" />
+<title>SWFUpload + CKEditor4 or SmartEditor Powered by Seok Kyun. Choi. 최석균</title>
+
+<!-- json & xml parser -->
+<script type="text/javascript" language="javascript" src="./common/json2.js"></script>
+<script type="text/javascript" language="javascript" src="./common/xml2json.js"></script>
+<!-- json & xml parser -->
+
+<!-- jQuery -->
+<script type="text/javascript" language="javascript" src="./common/jquery-2.0.2.min.js"></script>
+<!-- jQuery -->
+
+<!-- SWFUpload -->
+<script type="text/javascript" src="./SWFUpload/swfupload.js"></script>
+<script type="text/javascript" src="./SWFUpload/swfupload.queue.js"></script>
+<!-- SWFUpload -->
+
+<!-- Sayku Library -->
+<link rel="stylesheet" type="text/css" charset="UTF-8" media="all" href="syaku.file.css" />
+<script type="text/javascript" src="./syaku.file.js"></script>
+<script type="text/javascript" src="./syaku.file.handlers.js"></script>
+<!-- Sayku Library -->
+
+<!-- CKEditor4 -->
+<script src="./ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="./syaku.ckeditor.handlers.js"></script>
+<script>
+var ckeditor_config = {
+  resize_enabled : false,
+  enterMode : CKEDITOR.ENTER_BR , 
+  shiftEnterMode : CKEDITOR.ENTER_P , 
+  toolbarCanCollapse : true , 
+  removePlugins : "elementspath",
+
+  toolbar : [
+    [ 'Source', '-' , 'NewPage', 'Preview' ],
+    [ 'Cut', 'Copy', 'Paste', 'PasteText', '-', 'Undo', 'Redo' ],
+    [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript'],
+    [ 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ],
+    '/',
+    [ 'Styles', 'Format', 'Font', 'FontSize' ],
+    [ 'TextColor', 'BGColor' ],
+    [ 'Image', 'Flash', 'Table' , 'SpecialChar' , 'Link', 'Unlink']
+    
+  ] 
+
+};
+
+var MEIeditor = [ ];
+var objEditor;
+jQuery(function() {
+  MEIeditor[1] = CKEDITOR.replace( "content" , ckeditor_config );
+  objEditor = CKEDITOR.instances.content;
+});
+
+function save() {
+  MEIeditor[1].updateElement();
+  alert( MEIeditor[1].getData() );
+  //jQuery('#form').submit();
+}
+
+</script>
+
+
+<!-- CKEditor4 -->
+
+<script>
+var swfu;
+</script>
+
+</head>
+
+<body>
+
+<form id="form">
+<div>
+<textarea title="내용" cols="80" rows="10" id="content" name="content"></textarea>
+</div>
+
+<div class='file_upload' style='padding-bottom:5px;'>
+  <div class='file_head'>
+    <span id='swfu_button'></span>
+
+    <button type="button" onclick="jQuery.syakuFileUpload.deleteSwfupload(swfu,objEditor);">삭제</button>
+    <button type="button" onclick="jQuery.syakuFileUpload.editor_file_input(swfu,objEditor);">선택삽입</button>
+    <button type="button" onclick="jQuery.syakuFileUpload.editor_file_remove(swfu,objEditor);">선택모두제거</button>
+  </div>
+  <div class='file_content'>
+    <div class='file_preview' id='file_preview'></div>
+    <div class='file_field'>
+      <select class='file_view' id='file' name='file' multiple='multiple' onclick='jQuery.syakuFileUpload.preview(swfu);'>
+
+      <!--
+      <option value="{ 
+      file_orl : '파일 번호' , 
+      file : '파일명' , 
+      re_file : '변경된 파일 명' , 
+      folder : '폴더경로' , 
+      file_size : '파일사이즈' ,
+      extension : '파일 확장자명' , 
+      type : '파일 형식' 
+      }">파일명 (파일용량)</option>
+      -->
+
+      </select>
+    </div>
+    <div class='file_text'>
+      <p>총 용량 : <span id='file_size_text'>0 KB</span> / 무제한</p>
+      <p>개당 용량 : 무제한</p>
+      <p>파일 형식 : *.jpg;*.png;*.gif;</p>
+      <p>파일 제한 수 : 무제한</p>
+    </div>
+    <div class="clear"></div>
+  </div>
+  <div id='swfu_progress'></div>
+</div>
+
+<div>
+<button type="button" onclick="save();">전송하기</button>
+</div>
+
+</form>
+
+<script>
+
+  // SWFUpload
+  swfu = jQuery.syakuFileUpload.swfupload({
+    ele_file : '#file',
+    ele_file_orl : '#file_orl',
+    ele_file_size : '#file_size_text',
+    ele_preview : '#file_preview',
+    file_size_limit : 0 ,
+    file_types : '*.jpg;*.png;*.gif;',
+    file_types_description : '사용자 파일',
+    file_upload_multi : true,
+    file_upload_limit : 0, // 파일 첨부수 (0 = 무제한)
+    file_upload_unlimited : true, // file_upload_limit 가 0인 경우 true , 아닌 경우 false
+
+    post_params: { // 그외 전송될 파라메터
+      /*
+      file_orl : '',
+      target_orl : '',
+      mid : '',
+      sid : '',
+      seq : '',
+      member_orl : ''
+      */
+    },
+
+
+    button_placeholder_id : 'swfu_button'
+  });
+
+</script>
+
+
+</body>
+</html>
